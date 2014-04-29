@@ -1,3 +1,15 @@
 #display{
+	padding-top: 2em;
 	font-size: 3em;
+	height: 7em;
+	overflow-y: scroll;
+}
+
+.btn{
+	width: 100%;
+}
+
+.row{
+	margin-top: 1em;
+	margin-bottom: 1em;
 }
