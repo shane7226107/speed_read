@@ -36,22 +36,61 @@ var app = {
         app.receivedEvent('deviceready');
     },
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
-//        var parentElement = document.getElementById(id);
-//        var listeningElement = parentElement.querySelector('.listening');
-//        var receivedElement = parentElement.querySelector('.received');
-//
-//        listeningElement.setAttribute('style', 'display:none;');
-//        receivedElement.setAttribute('style', 'display:block;');
-    	
-//    	alert("Jquery ok");
-//    	$("#test").fadeOut();
-    	
+    receivedEvent: function(id) {    	
     	var running,
     		i = 0,
-    		sentence = "";
+    		sentence = "",
+    		speed = 12;
     	
-    	alert(sentence);
+    	$(function(){
+    		
+    		function reset(deleteinput){
+    			i = 0;
+    			if (deleteinput) {
+    				sentence = "";
+    				$('#input').val("");
+    			}
+    			$('#go').text('快读啦').removeClass('btn-danger').addClass('btn-success');
+    			window.clearInterval(running);
+    			running = null;
+    			$('#display').text('读完啦');
+    		}
+    		
+    		function holdPosition(){
+    			$('body').css('padding-top', ($(window).height() - $('#main').height()) / 2 + "px");
+    		}
+    		
+    		function pause(){
+    			if (running == null) {
+    				running = window.setInterval(function(){
+    					$('#display').text(((sentence.length > i)? sentence[i] : "") + ((sentence.length > i + 1)? sentence[i + 1] : "") + ((sentence.length > i + 2)? sentence[i + 2] : ""));
+    					i = i + 1;
+    					if (i >= sentence.length) {
+    						reset(false);
+    					}
+    				}, 1000 / parseInt($('#speed').val()));
+    				$('#go').text('暂停').removeClass('btn-success').addClass('btn-danger');
+    			} else {
+    				window.clearInterval(running);
+    				running = null;
+    				$('#go').text('快读啦').removeClass('btn-danger').addClass('btn-success');
+    			}
+    		}
+    		
+    		holdPosition();
+    		window.onresize = holdPosition;
+    		$('#input').change(function(){
+    			sentence = $('#input').val();
+    		});	
+    		$('#go').click(pause);
+    		$('#speed').change(function(){
+    			localStorage['speed'] = parseInt($('#speed').val());
+    			pause();
+    			pause();
+    		});
+    		
+    		$('#reset').click(reset);
+    	});
     	
         console.log('Received Event: ' + id);
     }
