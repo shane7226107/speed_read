@@ -50,10 +50,10 @@ var app = {
     				sentence = "";
     				$('#input').val("");
     			}
-    			$('#go').text('快读啦').removeClass('btn-danger').addClass('btn-success');
+    			$('#go').text('Read it').removeClass('btn-danger').addClass('btn-success');
     			window.clearInterval(running);
     			running = null;
-    			$('#display').text('读完啦');
+    			$('#display').text('Finished');
     		}
     		
     		function holdPosition(){
@@ -69,11 +69,11 @@ var app = {
     						reset(false);
     					}
     				}, 1000 / parseInt($('#speed').val()));
-    				$('#go').text('暂停').removeClass('btn-success').addClass('btn-danger');
+    				$('#go').text('pause').removeClass('btn-success').addClass('btn-danger');
     			} else {
     				window.clearInterval(running);
     				running = null;
-    				$('#go').text('快读啦').removeClass('btn-danger').addClass('btn-success');
+    				$('#go').text('Read it').removeClass('btn-danger').addClass('btn-success');
     			}
     		}
     		
