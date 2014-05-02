@@ -65,18 +65,29 @@ var app = {
     				
     				running_sentence = window.setInterval(function(){    				   
     					if(running_words == null){
-    						sentence = content[index_sentence];    						
+    						
+    						// Grab the next parsed sentence(中文斷句)
+    						sentence = content[index_sentence]; 
+    						index_sentence = index_sentence + 1;    						
+    						
+    						// Add padding to the sentence(讓跑馬燈功能實作變簡單)
     						var i;
     						for( i = 0 ; i < content[index_sentence].length ; i ++){
-    							sentence = " " + sentence + " "
+    							sentence = " " + sentence + " ";
     						}
     						
-    						index_sentence = index_sentence + 1;
+    						// Invoke interval task to run through the words the the sentence(中文斷句中的單字)
     						index_words = 0
-    						
     						running_words = window.setInterval(function(){
     							
-    							$('#display').text(words);
+    							$('#display').text(sentence.substring(index_words,content[index_sentence].length));
+    							
+    							index_words = index_words + 1;
+    							
+    							if(index_words > 2 * content[index_sentence].length){
+    								window.clearInterval(running_words);
+    								running_words = null;
+    							}
     							
     						},1000 / speed);
     					}    				   	
